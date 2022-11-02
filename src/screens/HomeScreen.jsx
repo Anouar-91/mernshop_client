@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import products from '../products';
 import Product from '../components/Product';
-import axios from 'axios';
+import {ThreeDots} from  'react-loader-spinner'
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../redux/actions/productActions';
+import Message from '../components/Message';
+
 
 const HomeScreen = () => {
     //without redux
@@ -34,7 +35,10 @@ const HomeScreen = () => {
     return (
         <>
             <h1>Latest Products</h1>
-            {loading ? 'chargement...' :
+            {loading 
+            ? <ThreeDots wrapperStyle={{justifyContent: 'center'}} /> 
+            : error 
+            ? (<Message variant="danger">{error}</Message>) :
                 <div className="row">
                     {products.map(product => {
                         return (

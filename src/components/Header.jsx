@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -15,10 +15,10 @@ const Header = () => {
 
             </ul>
             <ul className="navbar-nav d-flex">
-            <li className="nav-item">
-                <a className="nav-link" href="#">Cart</a>
+              <li className="nav-item">
+                <Link className="nav-link" to="/cart">Cart</Link>
               </li>
-            <li className="nav-item">
+              <li className="nav-item">
                 <a className="nav-link" href="#">Sign up</a>
               </li>
             </ul>

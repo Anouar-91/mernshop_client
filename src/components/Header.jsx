@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/actions/userActions'
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(() => {
+
+  }, [])
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -18,9 +29,22 @@ const Header = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/cart">Cart</Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Sign up</a>
-              </li>
+              {userInfo ? (
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{userInfo.name}</a>
+                  <div className="dropdown-menu">
+                    <a className="dropdown-item" href="#">Action</a>
+                    <div className="dropdown-divider"></div>
+                    <a className="dropdown-item" onClick={() => logoutHandler()} >Logout</a>
+                  </div>
+                </li>
+              )
+                : (
+                  <li className="nav-item">
+                    <Link className="nav-link" to={'/login'}>Sign in</Link>
+                  </li>
+                )}
+
             </ul>
           </div>
         </div>

@@ -3,8 +3,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getUserDetails } from '../redux/actions/userActions';
+import { getUserDetails, updateUserProfile } from '../redux/actions/userActions';
 import FormContainer from '../components/FormContainer';
+import { USER_UPDATE_PROFILE_RESET } from '../redux/constants/userConstants';
 
 
 const ProfileScreen = ({ }) => {
@@ -19,6 +20,8 @@ const ProfileScreen = ({ }) => {
     const {loading , error, user} = userDetails;
     const userLogin = useSelector(state => state.userLogin);
     const {userInfo} = userLogin;
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile);
+    const {success} = userUpdateProfile;
     const navigate = useNavigate();
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
@@ -27,7 +30,7 @@ const ProfileScreen = ({ }) => {
         if(password != confirmPassword){
             setMessage("Password do not match")
         }else{
-            //dispatch(register(name, email, password))
+           dispatch(updateUserProfile({id:user._id, name, email, password}))
         }
     }
 
@@ -35,20 +38,22 @@ const ProfileScreen = ({ }) => {
         if(!userInfo){
             navigate("/login")
         }else{
-            if(!user.name){
+            if(!user || !user.name || success){
+                dispatch({type:USER_UPDATE_PROFILE_RESET})
                 dispatch(getUserDetails('profile'))
             }else{
                 setName(user.name)
                 setEmail(user.email)
             }
         }
-    }, [dispatch, userInfo, user])
+    }, [dispatch, userInfo, user, success])
     return (
         <div>
             <FormContainer>
                 <h1>User Profile</h1>
                 {error && <Message variant="danger">{error}</Message> }
                 {message && <Message variant="danger">{message}</Message> }
+                {success && <Message variant="success">Profile updated</Message> }
                 {loading && <Loader/>}
                 <form onSubmit={submitHandler} action="" className="mt-4">
                     <div className="form-group">

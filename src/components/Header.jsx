@@ -33,7 +33,7 @@ const Header = () => {
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{userInfo.name}</a>
                   <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">Action</a>
+                    <Link className="dropdown-item" to="/profile">Profile</Link>
                     <div className="dropdown-divider"></div>
                     <a className="dropdown-item" onClick={() => logoutHandler()} >Logout</a>
                   </div>

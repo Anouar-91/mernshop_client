@@ -17,7 +17,7 @@ const CartScreen = ({ }) => {
 
   const checkoutHandler = () => {
     console.log("checkout")
-    navigate('/login?redirect=shipping')
+    navigate('/shipping')
     
   }
   const removeFromCartHandler = (id) => {
@@ -77,7 +77,7 @@ const CartScreen = ({ }) => {
             </li>
             <hr />
             <li>
-              <button className="btn btn-block btn-dark" disabled={cartItems.length === 0} onClick={() => checkoutHandler()}>Proceed to checkout</button>
+              <button className="btn btn-block btn-primary" disabled={cartItems.length === 0} onClick={() => checkoutHandler()}>Proceed to checkout</button>
             </li>
           </ul>
         </div>

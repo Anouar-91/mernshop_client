@@ -3,25 +3,32 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import { saveShippingAddress } from '../redux/actions/cartActions';
+import CheckoutSteps from '../components/CheckoutSteps';
 
 const ShippingScreen = () => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
-    const {shippingAddress} = cart;
+    const { shippingAddress } = cart;
     const [address, setAddress] = useState(shippingAddress.address)
     const [city, setCity] = useState(shippingAddress.city)
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
     const [country, setCountry] = useState(shippingAddress.country)
     const navigate = useNavigate();
 
-
+    
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingAddress({address, city, country, postalCode}))
+        dispatch(saveShippingAddress({ address, city, country, postalCode }))
         navigate("/payment")
     }
     return (
+        <>
+
+        <div className="mt-3 mb-3">
+        <CheckoutSteps step={2} />
+    </div>
         <FormContainer>
+   
             <h1>Shipping</h1>
             <form onSubmit={submitHandler} action="">
                 <div className="form-group">
@@ -41,10 +48,11 @@ const ShippingScreen = () => {
                     <input id='country' name="country" type="text" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Enter your country" className="form-control" />
                 </div>
                 <div className="text-center">
-                <button className="btn btn-primary mt-4">Continue</button>
+                    <button className="btn btn-primary mt-4">Continue</button>
                 </div>
             </form>
         </FormContainer>
+        </>
     )
 }
 

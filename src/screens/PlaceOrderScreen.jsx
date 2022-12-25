@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
-import { saveShippingAddress } from '../redux/actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { createOrder } from '../redux/actions/orderActions';
 const PlaceOrderScreen = () => {
   const cart = useSelector(state => state.cart)
-  console.log(cart)
+  const dispatch = useDispatch();
+  const orderCreate = useSelector(state => state.orderCreate)
+  const { order, success, error } = orderCreate
+  const navigate = useNavigate();
 
   //calculate prices 
   const addDecimals = (num) => {
@@ -20,8 +23,22 @@ const PlaceOrderScreen = () => {
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
   cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
 
-  const placeOrderHandler = () => {
+  useEffect(() => {
+    if (success) {
+      navigate(`/order/${order._id}`)
+    }
+  }, [navigate, success])
 
+  const placeOrderHandler = () => {
+    dispatch(createOrder({
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+      itemsPrice: cart.itemsPrice,
+      shippingPrice: cart.shippingPrice,
+      taxPrice: cart.taxPrice,
+      totalPrice: cart.totalPrice
+    }))
   }
   return (
     <>
@@ -111,6 +128,9 @@ const PlaceOrderScreen = () => {
                     </div>
                     <div className="col">${cart.totalPrice}</div>
                   </div>
+                </li>
+                <li class="list-group-item text-center">
+                  {error && <Message variant="danger">{error}</Message>}
                 </li>
                 <li class="list-group-item text-center">
                   <button className="btn btn-lg btn-primary" disabled={cart.cartItems === 0} onClick={() => placeOrderHandler()}>Place order</button>

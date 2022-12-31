@@ -6,10 +6,12 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../redux/actions/orderActions';
 const PlaceOrderScreen = () => {
   const cart = useSelector(state => state.cart)
+  console.log(cart);
   const dispatch = useDispatch();
   const orderCreate = useSelector(state => state.orderCreate)
   const { order, success, error } = orderCreate
   const navigate = useNavigate();
+
 
   //calculate prices 
   const addDecimals = (num) => {
@@ -27,7 +29,7 @@ const PlaceOrderScreen = () => {
     if (success) {
       navigate(`/order/${order._id}`)
     }
-  }, [navigate, success])
+  }, [navigate, success, cart])
 
   const placeOrderHandler = () => {
     dispatch(createOrder({

@@ -44,6 +44,16 @@ const Header = () => {
                     <Link className="nav-link" to={'/login'}>Sign in</Link>
                   </li>
                 )}
+              {userInfo && userInfo.isAdmin && (
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">ADMIN</a>
+                  <div className="dropdown-menu">
+                    <Link className="dropdown-item" to="/admin/userlist">Users</Link>
+                    <Link className="dropdown-item" to="/admin/productlist">Products</Link>
+                    <Link className="dropdown-item" to="/admin/orderlist">Orders</Link>
+                  </div>
+                </li>
+              )}
 
             </ul>
           </div>

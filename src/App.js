@@ -20,7 +20,7 @@ function App() {
 
       <Header></Header>
       <main>
-        <div className="container">
+        <div className="container-fluid">
           <Routes>
             <Route path='/' element={<HomeScreen />} />
             <Route path='/cart/:id' element={<CartScreen />} />

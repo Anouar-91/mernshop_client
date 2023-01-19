@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listProducts } from '../redux/actions/productActions';
+import { deleteProduct, listProducts } from '../redux/actions/productActions';
 
 const ProductListScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const productList = useSelector(state => state.productList)
     const { loading, error, products } = productList
+    const productDelete = useSelector(state => state.productDelete)
+    const { loading:loadingDelete, error:errorDelete, success:successDelete } = productDelete
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -21,11 +23,11 @@ const ProductListScreen = () => {
         } else {
             navigate('/login')
         }
-    }, [dispatch, userInfo])
+    }, [dispatch, userInfo, successDelete])
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure ?')) {
-            //
+            dispatch(deleteProduct(id))
         }
     }
     const createProductHandler = (product) => {
@@ -42,6 +44,8 @@ const ProductListScreen = () => {
                     <button className="my-3 btn btn-primary" onClick={createProductHandler}>Create product</button>
                 </div>
             </div>
+            {loadingDelete && <Loader/>}
+            {errorDelete && <Message variant="danger">{errorDelete}</Message>}
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
                 <table className="table table-hover">
                     <thead>

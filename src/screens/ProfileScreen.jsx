@@ -48,7 +48,7 @@ const ProfileScreen = ({ }) => {
         if (!userInfo) {
             navigate("/login")
         } else {
-            if (!user || !user.name || success) {
+            if (!user || !user.name || success || userInfo._id != user._id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
                 dispatch(listMyOrders())
@@ -111,8 +111,8 @@ const ProfileScreen = ({ }) => {
                                         <th scope="row">{order._id}</th>
                                         <td>{order.createdAt.substring(0,10)}</td>
                                         <td>{order.totalPrice}</td>
-                                        <td>{order.isPaid ? order.paidAt.substring(0,10) : <i class="fa-solid fa-xmark text-danger"></i>} </td>
-                                        <td>{order.isDelivered ? order.isDeliveredAt.substring(0,10) : <i class="fa-solid fa-xmark text-danger"></i>} </td>
+                                        <td>{order.isPaid ? order.paidAt.substring(0,10) : <i className="fa-solid fa-xmark text-danger"></i>} </td>
+                                        <td>{order.isDelivered ? order.isDeliveredAt.substring(0,10) : <i className="fa-solid fa-xmark text-danger"></i>} </td>
                                         <td><Link to={"/order/" + order._id}><button className="btn btn-light">Details</button> </Link></td>
                                     </tr>
                                 ))}

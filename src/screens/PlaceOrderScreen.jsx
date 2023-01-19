@@ -49,8 +49,8 @@ const PlaceOrderScreen = () => {
         <div className="row mt-5">
 
           <div className="col-md-8">
-            <ul class="list-group">
-              <li class="list-group-item">
+            <ul className="list-group">
+              <li className="list-group-item">
                 <h3>Shipping</h3>
                 <p>
                   <strong>Address: </strong>
@@ -58,7 +58,7 @@ const PlaceOrderScreen = () => {
                 </p>
 
               </li>
-              <li class="list-group-item">
+              <li className="list-group-item">
                 <h3>Payment Method</h3>
                 <p>
                   <strong>Method: </strong>
@@ -66,12 +66,12 @@ const PlaceOrderScreen = () => {
                 </p>
 
               </li>
-              <li class="list-group-item">
+              <li className="list-group-item">
                 <h3>Order items</h3>
                 {cart.cartItems.length === 0 ? <Message>Your cart is empty</Message> : (
-                  <ul class="list-group">
+                  <ul className="list-group">
                     {cart.cartItems.map((item, index) => (
-                      <li key={index} class="list-group-item">
+                      <li key={index} className="list-group-item">
                         <div className="row">
                           <div className="col md-1">
                             <img src={item.image} alt={item.name} className="img-fluid rounded w-50" />
@@ -96,10 +96,10 @@ const PlaceOrderScreen = () => {
           <div className="col-md-4">
             <div className="card">
               <ul className="list-group">
-                <li class="list-group-item">
+                <li className="list-group-item">
                   <h3>Order Summary</h3>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                   <div className="row">
                     <div className="col">
                       Items
@@ -107,7 +107,7 @@ const PlaceOrderScreen = () => {
                     <div className="col">${cart.itemsPrice}</div>
                   </div>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                   <div className="row">
                     <div className="col">
                       Shipping
@@ -115,7 +115,7 @@ const PlaceOrderScreen = () => {
                     <div className="col">${cart.shippingPrice}</div>
                   </div>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                   <div className="row">
                     <div className="col">
                       Tax
@@ -123,7 +123,7 @@ const PlaceOrderScreen = () => {
                     <div className="col">${cart.taxPrice}</div>
                   </div>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                   <div className="row">
                     <div className="col">
                       Total
@@ -131,10 +131,10 @@ const PlaceOrderScreen = () => {
                     <div className="col">${cart.totalPrice}</div>
                   </div>
                 </li>
-                <li class="list-group-item text-center">
+                <li className="list-group-item text-center">
                   {error && <Message variant="danger">{error}</Message>}
                 </li>
-                <li class="list-group-item text-center">
+                <li className="list-group-item text-center">
                   <button className="btn btn-lg btn-primary" disabled={cart.cartItems === 0} onClick={() => placeOrderHandler()}>Place order</button>
                 </li>
 

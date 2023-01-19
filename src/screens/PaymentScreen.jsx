@@ -39,7 +39,7 @@ const PaymentScreen = () => {
                     <div className="form-group">
                         <label htmlFor="paymentMethod">Select Method</label>
                     </div>
-                    <select class="form-select" aria-label="Default select example" onChange={e => setPaymentMethod(e.target.value)}>
+                    <select className="form-select" aria-label="Default select example" onChange={e => setPaymentMethod(e.target.value)}>
                         <option value="Paypal">Paypal</option>
                         <option value="Stripe">Stripe</option>
                     </select>

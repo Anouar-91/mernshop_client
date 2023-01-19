@@ -56,7 +56,7 @@ const CartScreen = ({ }) => {
                         </select>
                       </div>
                       <div className="col-md-2">
-                        <button className="btn btn-light" onClick={() => removeFromCartHandler(item.product)}><i class="fa-solid fa-trash"></i></button>
+                        <button className="btn btn-light" onClick={() => removeFromCartHandler(item.product)}><i className="fa-solid fa-trash"></i></button>
                       </div>
                     </div>
                   </li>

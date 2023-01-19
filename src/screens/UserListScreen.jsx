@@ -53,10 +53,10 @@ const UserListScreen = () => {
                                 <td scope="row">{user._id}</td>
                                 <td>{user.name}</td>
                                 <td> <a href={`mailot:${user.email}`}>{user.email}</a></td>
-                                <td>{user.isAdmin ? <i class="fa-solid fa-check text-success"></i> : <i class="fa-solid fa-xmark text-danger"></i>}</td>
+                                <td>{user.isAdmin ? <i className="fa-solid fa-check text-success"></i> : <i className="fa-solid fa-xmark text-danger"></i>}</td>
                                 <td>
-                                    <Link  className="btn btn-sm btn-warning" to={`/admin/user/${user._id}/edit`}><i class="fa-regular fa-pen-to-square"></i></Link> 
-                                    <button className="btn btn-sm btn-danger" onClick={() => deleteHandler(user._id)}><i class="fa-solid fa-trash"></i></button>
+                                    <Link  className="btn btn-sm btn-warning" to={`/admin/user/${user._id}/edit`}><i className="fa-regular fa-pen-to-square"></i></Link> 
+                                    <button className="btn btn-sm btn-danger" onClick={() => deleteHandler(user._id)}><i className="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                         ))}

@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-import {detailProduct} from '../redux/actions/productActions'
+import {detailProduct, updateProduct} from '../redux/actions/productActions'
+import { PRODUCT_DETAIL_RESET, PRODUCT_UPDATE_RESET } from '../redux/constants/productConstants';
 const ProductEditScreen = ({ }) => {
     let { id } = useParams();
 
@@ -22,14 +23,32 @@ const ProductEditScreen = ({ }) => {
     const productDetail = useSelector(state => state.productDetail);
     const { loading, error, product } = productDetail;
 
+    const productUpdate = useSelector(state => state.productUpdate);
+    const { loading:loadingUpdate, error:errorUpdate, success:successUpdate } = productUpdate;
+
     const navigate = useNavigate();
 
     const submitHandler = (e) => {
         e.preventDefault();
+        dispatch(updateProduct({
+            _id: id,
+            name,
+            price,
+            image,
+            brand,
+            category,
+            description,
+            countInStock
+        }))
     }
 
     useEffect(() => {
-            if (!product.name || product._id !== id ) {
+        if(successUpdate){
+            dispatch({type:PRODUCT_UPDATE_RESET})
+            dispatch({type:PRODUCT_DETAIL_RESET})
+            navigate('/admin/productlist')
+        }else{
+            if (!product.name || product._id !== id || successUpdate ) {
                 dispatch(detailProduct(id))
             } else {
                 setName(product.name)
@@ -40,7 +59,9 @@ const ProductEditScreen = ({ }) => {
                 setCountInStock(product.countInStock)
                 setDescription(product.description)
             }
-    }, [product, id])
+        }
+
+    }, [product, id, successUpdate ])
 
     return (
         <>
@@ -50,6 +71,8 @@ const ProductEditScreen = ({ }) => {
             <div>
                 <FormContainer>
                     <h1>Edit product</h1>
+                    {loadingUpdate && <Loader/>}
+                    {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
                     {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
                         <form onSubmit={submitHandler} action="" className="mt-4">
                             <div className="form-group">

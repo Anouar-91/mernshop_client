@@ -5,30 +5,18 @@ import {ThreeDots} from  'react-loader-spinner'
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../redux/actions/productActions';
 import Message from '../components/Message';
+import { useParams } from 'react-router-dom';
 
 
 const HomeScreen = () => {
-    //without redux
-    /*  const [products, setProducts] = useState();
-        const [loading, setLoading] = useState(true)
-    
-        const fetchProducts = async() => {
-            const {data} = await axios.get('http://localhost:3000/api/products');
-            setProducts(data);
-            setLoading(false);
-        }
-        useEffect(() => {
-            fetchProducts()
-        },[]) */
-
-    //with redux
+    let {keyword} = useParams();
     const dispatch = useDispatch();
     const productList = useSelector(state => state.productList)
     const { loading, error, products} = productList
 
     useEffect(() => {
-        dispatch(listProducts())
-    }, [dispatch])
+        dispatch(listProducts(keyword))
+    }, [dispatch, keyword])
 
 
 

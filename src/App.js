@@ -27,7 +27,7 @@ function App() {
       <main>
         <div className="container-fluid">
           <Routes>
-            <Route path='/' element={<HomeScreen />} />
+            <Route path='/' element={<HomeScreen />} exact/>
             <Route path='/cart/:id' element={<CartScreen />} />
             <Route path='/cart' element={<CartScreen />} />
             <Route path='/product/:id' element={<ProductScreen />} />
@@ -43,6 +43,8 @@ function App() {
             <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
             <Route path='/admin/productlist' element={<ProductListScreen />} />
             <Route path='/admin/orderlist' element={<OrderListScreen />} />
+            <Route path='/search/:keyword' element={<HomeScreen />}  />
+
           </Routes>
         </div>
       </main>

@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
-import { getOrderDetails, payOrder } from '../redux/actions/orderActions';
 import Loader from '../components/Loader';
 import { PayPalButton } from 'react-paypal-button-v2';
-import { ORDER_PAY_RESET } from '../redux/constants/orderConstants';
+import axios from 'axios';
+import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../redux/constants/orderConstants';
+import { deliverOrder, getOrderDetails, payOrder } from '../redux/actions/orderActions';
+
 const OrderScreen = () => {
   let { id } = useParams();
   const orderDetails = useSelector(state => state.orderDetails)
   const { order, loading, error } = orderDetails
   const orderPay = useSelector(state => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
+  const orderDeliver = useSelector(state => state.orderDeliver)
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver
   const [sdkReady, setSdkReady] = useState(false);
-  if (!loading) {
-    //calculate prices 
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-    order.itemsPrice = addDecimals(order.orderItems.reduce(
-      (acc, item) => acc + item.price * item.qty, 0
-    ))
-  }
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if(!userInfo){
+      navigate('/login')
+    }
+  })
+
   const addPaypalScript = async () => {
     const { data: clientId } = await axios.get(process.env.REACT_APP_API_URL + "config/paypal")
     const script = document.createElement('script')
@@ -36,11 +38,23 @@ const OrderScreen = () => {
     }
     document.body.appendChild(script)
   }
-  useEffect(() => {
 
-    addPaypalScript();
-    if (!order || order._id !== id || successPay) {
-      dispatch({type:ORDER_PAY_RESET})
+  let itemsPrice;
+  if (!loading) {
+    //calculate prices 
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) / 100).toFixed(2)
+    }
+    itemsPrice = addDecimals(order.orderItems.reduce(
+      (acc, item) => acc + item.price * item.qty, 0
+    ))
+  }
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!order || order._id !== id || successPay || successDeliver) {
+      dispatch({ type: ORDER_PAY_RESET })
+      dispatch({ type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(id))
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -49,37 +63,37 @@ const OrderScreen = () => {
         setSdkReady(true)
       }
     }
-  }, [order, id, successPay])
+  }, [order, id, successPay, successDeliver])
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult)
-    dispatch(payOrder(order._id, paymentResult))
+    const orderId = order._id;
+    dispatch(payOrder(orderId, paymentResult))
+  }
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order))
   }
 
-  return loading ? <Loader />
 
+  return loading ? <Loader />
     : error ? <Message variant='danger'>{error}</Message>
       : <>
         <h1>Order {order._id}</h1>
         <div className="row mt-5">
-
           <div className="col-md-8">
             <ul className="list-group">
               <li className="list-group-item">
                 <h3>Shipping</h3>
                 <p>
                   <strong>Name: </strong> {order.user.name}
-
                 </p>
                 <p>
                   <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
-
                 </p>
                 <p>
                   <strong>Address: </strong>
                   {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}
                 </p>
-                {order.isDelivered ? (<Message variant="success">Delivered on {order.isDelivered}</Message>)
+                {order.isDelivered ? (<Message variant="success">Delivered on {order.deliveredAt}</Message>)
                   : (<Message variant="danger">Not delivered</Message>)}
               </li>
               <li className="list-group-item">
@@ -90,7 +104,6 @@ const OrderScreen = () => {
                 </p>
                 {order.isPaid ? (<Message variant="success">Paid on {order.paidAt}</Message>)
                   : (<Message variant="danger">Not paid</Message>)}
-
               </li>
               <li className="list-group-item">
                 <h3>Order items</h3>
@@ -113,7 +126,6 @@ const OrderScreen = () => {
                         </div>
                       </li>
                     ))}
-
                   </ul>
                 )}
               </li>
@@ -130,7 +142,7 @@ const OrderScreen = () => {
                     <div className="col">
                       Items
                     </div>
-                    <div className="col">${order.itemsPrice}</div>
+                    <div className="col">${itemsPrice}</div>
                   </div>
                 </li>
                 <li className="list-group-item">
@@ -160,12 +172,17 @@ const OrderScreen = () => {
                 {!order.isPaid && (
                   <li className="list-group-item">
                     {loadingPay && <Loader />}
-                    {!sdkReady ? <Loader/> : (
+                    {!sdkReady ? <Loader /> : (
                       <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
                     )}
                   </li>
                 )}
-
+                {loadingDeliver && <Loader />}
+                {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  <li className="list-group-item text-center" >
+                    <button onClick={deliverHandler} className="btn btn-primary">Mark as deliverd</button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

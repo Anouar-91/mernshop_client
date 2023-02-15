@@ -1,17 +1,20 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { createProduct, deleteProduct, listProducts } from '../redux/actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../redux/constants/productConstants';
+import Paginate from '../components/Paginate';
 
 const ProductListScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    let {pageNumber} = useParams();
+
     const productList = useSelector(state => state.productList)
-    const { loading, error, products } = productList
+    const { loading, error, products, pages, page } = productList
     const productDelete = useSelector(state => state.productDelete)
     const { loading:loadingDelete, error:errorDelete, success:successDelete } = productDelete
 
@@ -29,9 +32,9 @@ const ProductListScreen = () => {
         if(successCreate) {
             navigate(`/admin/product/${createdProduct._id}/edit`)
         }else{
-            dispatch(listProducts())
+            dispatch(listProducts('', pageNumber))
         }
-    }, [dispatch, userInfo, successDelete, successCreate, createdProduct])
+    }, [dispatch, userInfo, successDelete, successCreate, createdProduct, pageNumber])
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure ?')) {
@@ -57,6 +60,7 @@ const ProductListScreen = () => {
             {loadingDelete && <Loader/>}
             {errorDelete && <Message variant="danger">{errorDelete}</Message>}
             {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
+                <>
                 <table className="table table-hover">
                     <thead>
                         <tr className="table-primary">
@@ -86,6 +90,8 @@ const ProductListScreen = () => {
                         ))}
                     </tbody>
                 </table>
+                <Paginate pages={pages} page={page} isAdmin={true}/>
+                </>
             )}
         </>
     )

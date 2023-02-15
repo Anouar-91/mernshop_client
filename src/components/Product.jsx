@@ -4,7 +4,7 @@ import {Link,useParams } from "react-router-dom";
 const Product = ({ product }) => {
 
     return (
-        <div className="card my-3 p-3 rounder">
+        <div className="card my-3 p-3 rounder" style={{height: '100%'}}>
             <Link to={`/product/${product._id}`}>
                 <img className="card-img" src={product.image} />
             </Link>

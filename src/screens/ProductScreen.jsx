@@ -59,7 +59,7 @@ const ProductScreen = () => {
                     <>
                         <div className="row ">
                             <div className="col-md-6 mt-3">
-                                <img src={product.image} alt="produit" />
+                                <img className='img-fluid' src={product.image} alt="produit" />
                             </div>
                             <div className="col-md-3 mt-3">
                                 <ul className="list-group">

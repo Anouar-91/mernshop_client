@@ -7,6 +7,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import Message from '../components/Message';
 import { useNavigate } from "react-router-dom";
 import { PRODUCT_CREATE_REVIEW_RESET } from '../redux/constants/productConstants';
+import Meta from '../components/Meta';
 
 const ProductScreen = () => {
     let { id } = useParams();
@@ -52,11 +53,13 @@ const ProductScreen = () => {
 
     return (
         <>
+           
             <Link to={"/"} className="btn btn-light my-3">Retour</Link>
             {loading
                 ? <ThreeDots wrapperStyle={{ justifyContent: 'center' }} />
                 : error ? <Message variant='danger'>{error}</Message> : (
                     <>
+                     <Meta title={product.name} />
                         <div className="row ">
                             <div className="col-md-6 mt-3">
                                 <img className='img-fluid' src={product.image} alt="produit" />

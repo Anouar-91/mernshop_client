@@ -51,12 +51,12 @@ const OrderListScreen = () => {
                                 <td>{order.totalPrice} </td>
                                 <td>{order.isPaid ?
                                 (order.paidAt.substring(0,10))
-                                : (<i class="fa-solid fa-xmark"></i>)}
+                                : (<i className="fa-solid fa-xmark"></i>)}
                                 </td>
                   
                                 <td>{order.isDelivered ?
                                 (order.deliveredAt.substring(0,10))
-                                : (<i class="fa-solid fa-xmark"></i>)}
+                                : (<i className="fa-solid fa-xmark"></i>)}
                                 </td>
                   
                                 <td>

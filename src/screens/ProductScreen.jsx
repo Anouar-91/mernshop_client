@@ -22,7 +22,7 @@ const ProductScreen = () => {
     const productCreateReview = useSelector(state => state.productCreateReview)
     const { success: successProductReview, error: errorProductReview } = productCreateReview;
 
-    const [qty, setQty] = useState(0);
+    const [qty, setQty] = useState();
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const navigate = useNavigate();
@@ -122,7 +122,7 @@ const ProductScreen = () => {
                                             </li>
                                         )}
                                         <li className="list-group-item d-flex justify-content-center align-items-center ">
-                                            <button onClick={() => addToCartHandler()} disabled={product.countInStock === 0} className="btn btn-primary">Add to cart</button>
+                                            <button onClick={() => addToCartHandler()} disabled={product.countInStock === 0 || isNaN(qty)} className="btn btn-primary" >Add to cart</button>
                                         </li>
                                     </ul>
                                 </div>

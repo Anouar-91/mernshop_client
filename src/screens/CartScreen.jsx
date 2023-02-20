@@ -46,9 +46,7 @@ const CartScreen = ({ }) => {
                       </div>
                       <div className="col-md-2">{item.price}$</div>
                       <div className="col-md-2">
-                        <select className="form-select" value={item.qty} onChange={(e) => dispatch(addCart(item.product, Number(e.target.value)))} >
-                          <option selected>Open this select menu</option>
-                          {
+                        <select className="form-select" value={item.qty} onChange={(e) => dispatch(addCart(item.product, Number(e.target.value)))} >                          {
                             [...Array(item.countInStock).keys()].map((x) => (
                               <option key={x + 1} value={x + 1}>{x + 1}</option>
                             ))
@@ -78,7 +76,7 @@ const CartScreen = ({ }) => {
             </li>
             <hr />
             <li>
-              <button className="btn btn-block btn-primary" disabled={cartItems.length === 0} onClick={() => checkoutHandler()}>Proceed to checkout</button>
+              <button className="btn btn-block btn-primary" disabled={cartItems.length === 0 } onClick={() => checkoutHandler()}>Proceed to checkout</button>
             </li>
           </ul>
         </div>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../redux/actions/orderActions';
+import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants';
 const PlaceOrderScreen = () => {
   const cart = useSelector(state => state.cart)
   console.log(cart);
@@ -27,6 +28,7 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (success) {
+      dispatch({type:ORDER_CREATE_RESET})
       navigate(`/order/${order._id}`)
     }
   }, [navigate, success, cart])

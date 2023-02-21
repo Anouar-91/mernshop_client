@@ -39,7 +39,6 @@ const ProductEditScreen = ({ }) => {
             const config = {
                 headers: {
                     'Content-Type' : 'multipart/form-data',
-                    'Access-Control-Allow-Origin': "https://brilliant-licorice-c691cc.netlify.app"
                 }
             }
             const {data} = await axios.post(process.env.REACT_APP_API_URL + 'upload', formData, config)

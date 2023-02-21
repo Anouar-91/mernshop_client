@@ -39,7 +39,8 @@ const ProductEditScreen = ({ }) => {
             const config = {
                 headers: {
                     'Content-Type' : 'multipart/form-data',
-                }
+                    'Access-Control-Allow-Origin': '*'
+                },            
             }
             const {data} = await axios.post(process.env.REACT_APP_API_URL + 'upload', formData, config)
             const uriSplit = data.split('/');

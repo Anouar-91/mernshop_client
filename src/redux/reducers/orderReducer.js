@@ -51,14 +51,10 @@ export const orderDetailsReducer = (state ={loading: true,orderItems: [], shippi
 export const orderPayReducer = (state ={}, action) => {
     switch (action.type) {
         case ORDER_PAY_REQUEST:
-            console.log('request orderPay')
-
             return {
                 loading: true,
             }
         case ORDER_PAY_SUCCESS:
-            console.log('success orderPay')
-
             return {
                 loading: false,
                 success:true 
@@ -69,7 +65,6 @@ export const orderPayReducer = (state ={}, action) => {
                 error: action.payload
             }
         case ORDER_PAY_RESET:
-            console.log('reset orderPay')
             return {
             }
         default: 

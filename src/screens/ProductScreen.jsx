@@ -40,7 +40,6 @@ const ProductScreen = () => {
     }
 
     useEffect(() => {
-        console.log("test")
         dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
         if(successProductReview){
             alert('Review Submited !')

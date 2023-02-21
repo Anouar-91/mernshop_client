@@ -35,11 +35,8 @@ const UserEditScreen = ({ }) => {
             navigate('/admin/userlist')
         } else {
             if (!user.name || user._id !== id ) {
-                console.log("je usis dans le if")
-
                 dispatch(getUserDetails(id))
             } else {
-                console.log("je usis dans le else")
                 setName(user.name)
                 setEmail(user.email)
                 setIsAdmin(user.isAdmin)

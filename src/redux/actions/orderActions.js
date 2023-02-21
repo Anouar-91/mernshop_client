@@ -69,9 +69,7 @@ export const payOrder = (orderId, paymentResult) => async (dispatch, getState) =
                 Authorization: 'Bearer ' +userInfo.token
             }
         }
-        console.log("orderPay: before call api")
         const {data} = await axios.put(process.env.REACT_APP_API_URL + 'orders/' + orderId + "/pay", paymentResult, config)
-        console.log("orderPay: after call api")
         dispatch({
             type: ORDER_PAY_SUCCESS,
             payload: data

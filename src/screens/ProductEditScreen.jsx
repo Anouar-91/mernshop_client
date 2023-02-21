@@ -44,7 +44,6 @@ const ProductEditScreen = ({ }) => {
             }
             const {data} = await axios.post(process.env.REACT_APP_API_URL + 'upload', formData, config)
             const uriSplit = data.split('/');
-            console.log(process.env.REACT_APP_API_URL_IMAGE+'uploads/' +uriSplit[uriSplit.length - 1], "JE SUIS DATA")
             setImage(process.env.REACT_APP_API_URL_IMAGE+'uploads/' +uriSplit[uriSplit.length - 1] )
             setUploading(false)
         } catch (error) {

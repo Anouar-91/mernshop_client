@@ -16,7 +16,6 @@ const CartScreen = ({ }) => {
 
 
   const checkoutHandler = () => {
-    console.log("checkout")
     navigate('/shipping')
     
   }

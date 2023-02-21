@@ -7,7 +7,6 @@ import { createOrder } from '../redux/actions/orderActions';
 import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants';
 const PlaceOrderScreen = () => {
   const cart = useSelector(state => state.cart)
-  console.log(cart);
   const dispatch = useDispatch();
   const orderCreate = useSelector(state => state.orderCreate)
   const { order, success, error } = orderCreate

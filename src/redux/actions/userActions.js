@@ -39,7 +39,7 @@ export const login = (email, password) => async (dispatch) =>{
         localStorage.setItem('userInfo', JSON.stringify(data))
 
     } catch (error) {
-        console.log(error, "test")
+        console.log(error, "error")
         dispatch({
             type:USER_LOGIN_FAIL, 
             payload: error.response && error.response.data.message 
@@ -227,7 +227,6 @@ export const updateUser = (user) => async (dispatch, getState) => {
             payload: data
         })
         if(user._id === userInfo._id){
-            console.log("je suis la if")
             dispatch({
                 type: USER_DETAILS_SUCCESS,
                 payload: data
